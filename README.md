@@ -35,7 +35,7 @@ npx standard --fix
 npm install tailwindcss
 npx tailwind init --full
 npm i -D postcss-loader
-
+npm install xmlhttprequest
 
 ## Tests
 
