@@ -5,5 +5,48 @@
 @tailwind utilities;
 
 h1 {
-    text-align: center;
-  }
+  text-align: center;
+}
+
+/* Flip car box main container */
+.flip-card {
+  background-color: transparent;
+  perspective: 1000px;
+}
+
+/* The container that holds the front and back side */
+.flip-card-inner {
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  height: 340px;
+}
+
+/* Horizontal flip on mouse over the flip container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Style the back side */
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Style the front side */
+.flip-card-front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+/* Style the car image after hover */
+.flip-card-back img {
+  opacity: 0.2;
+}

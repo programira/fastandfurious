@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function (event) {
   init()
 })
+
 function loadJSON (callback) {
   var xobj = new XMLHttpRequest()
   xobj.overrideMimeType('application/json')
@@ -26,11 +27,16 @@ function init () {
       var div = document.createElement('div')
       div.className = 'car my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3'
       const someHtml = `
+      <label class="inline-flex items-center">
+          <input type="checkbox" class="form-checkbox" id="${actualJSON.cars[i].id}">
+        </label>
+      <div class="flip-card">
         <!-- Article -->
-        <article class="overflow-hidden rounded-lg shadow-lg bg-gray-100">
-
+        <article class="h-340 rounded-lg shadow-lg bg-gray-100 flip-card-inner"  onclick="selectCar('${actualJSON.cars[i].id}')">
+        
+          <div class="flip-card-front">
             <a href="#">
-                <img alt="Placeholder" class="block h-56 w-full" src="${actualJSON.cars[i].image}">
+                <img alt="Placeholder" class="block h-56 w-full relative car-image" src="${actualJSON.cars[i].image}">
             </a>
 
             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
@@ -40,17 +46,34 @@ function init () {
                     </a>
                 </h1>
             </header>
+          </div>
+          <div class="flip-card-back">
+            <a href="#">
+                <img alt="Placeholder" class="block h-56 w-full relative car-image" src="${actualJSON.cars[i].image}">
+            </a>
 
-            <footer class="flex items-center justify-between leading-none p-2 md:p-4 hidden">
+            <header class="flex items-center justify-between leading-tight p-2 md:p-4">
+                <h1 class="text-lg">
+                    <a class="name no-underline hover:underline text-black" href="#">
+                    ${actualJSON.cars[i].name}
+                    </a>
+                </h1>
+            </header>
+            <footer class=" flex items-center justify-between leading-none p-2 md:p-4 ">
                 <a class="flex items-center no-underline hover:underline text-black" href="#">
                     <p class="ml-2 text-sm">
                     ${actualJSON.cars[i].description}
                     </p>
+                    <p class="ml-2 text-sm">
+                    ${actualJSON.cars[i].speed}
+                    </p>
                 </a>
             </footer>
-
+          </div>
+        
         </article>
         <!-- END Article -->
+        </div>
       `
 
       div.innerHTML = someHtml
@@ -74,6 +97,16 @@ function searchCars () {
       cars[i].style.display = ''
     } else {
       cars[i].style.display = 'none'
+    }
+  }
+}
+function selectCar (i) {
+  var selectedCar =  document.getElementById(i)
+  if (selectedCar.checked == false) {
+    selectedCar.checked = true 
+  } else {
+    if (selectedCar.checked == true) {
+      selectedCar.checked = false
     }
   }
 }
