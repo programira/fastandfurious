@@ -17,16 +17,14 @@ var actualJSON
 function init () {
   loadJSON(function (response) {
     // Parse JSON string into object
-    console.log(response)
     actualJSON = JSON.parse(response)
-    console.log(actualJSON.cars.length)
-    console.log(actualJSON.cars[2].description)
+
     // Filling the html from the json  
     for (var i = 0; i < actualJSON.cars.length; i++) {
-      console.log(actualJSON.cars[i].description)
+      // console.log(actualJSON.cars[i].description)
       // append each car to our page
       var div = document.createElement('div')
-      div.className = 'my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3'
+      div.className = 'car my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3'
       const someHtml = `
         <!-- Article -->
         <article class="overflow-hidden rounded-lg shadow-lg bg-gray-100">
@@ -37,7 +35,7 @@ function init () {
 
             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                 <h1 class="text-lg">
-                    <a class="no-underline hover:underline text-black" href="#">
+                    <a class="name no-underline hover:underline text-black" href="#">
                     ${actualJSON.cars[i].name}
                     </a>
                 </h1>
@@ -60,4 +58,22 @@ function init () {
       mainContainer.appendChild(div)
     }
   })
+}
+
+function searchCars () {
+  // Declare variables
+  var input, filter, cars, i
+  input = document.getElementById('searchCar')
+  filter = input.value.toUpperCase()
+  cars = document.querySelectorAll('.car')
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < cars.length; i++) {
+    var name = cars[i].querySelector('.name').innerHTML
+    if (name.toUpperCase().indexOf(filter) > -1) {
+      cars[i].style.display = ''
+    } else {
+      cars[i].style.display = 'none'
+    }
+  }
 }

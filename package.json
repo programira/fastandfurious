@@ -12,6 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "css-loader": "^3.2.0",
+    "esm": "^3.2.25",
+    "express-favicon": "^2.0.1",
+    "js-search": "^1.4.3",
     "script-loader": "^0.7.2",
     "style-loader": "^1.0.0",
     "tailwindcss": "^1.1.1",
