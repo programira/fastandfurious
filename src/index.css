@@ -50,3 +50,15 @@ h1 {
 .flip-card-back img {
   opacity: 0.2;
 }
+
+.car-image-race {
+  transform: rotateY(180deg);
+  max-width: 116px;
+}
+.track {
+  top: 0; 
+  left: 0; 
+  bottom: 0; 
+  width: 100%; 
+  z-index: 1
+}

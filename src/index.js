@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function (event) {
   init()
+  displayCarTrack()
 })
 
 function loadJSON (callback) {
@@ -35,9 +36,7 @@ function init () {
         <article class="h-340 rounded-lg shadow-lg bg-gray-100 flip-card-inner"  onclick="selectCar('${actualJSON.cars[i].id}')">
         
           <div class="flip-card-front">
-            <a href="#">
                 <img alt="Placeholder" class="block h-56 w-full relative car-image" src="${actualJSON.cars[i].image}">
-            </a>
 
             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                 <h1 class="text-lg">
@@ -48,9 +47,7 @@ function init () {
             </header>
           </div>
           <div class="flip-card-back">
-            <a href="#">
                 <img alt="Placeholder" class="block h-56 w-full relative car-image" src="${actualJSON.cars[i].image}">
-            </a>
 
             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                 <h1 class="text-lg">
@@ -101,12 +98,41 @@ function searchCars () {
   }
 }
 function selectCar (i) {
-  var selectedCar =  document.getElementById(i)
-  if (selectedCar.checked == false) {
+  var selectedCar = document.getElementById(i) // Passing through i to get that car by id 
+  var start = document.getElementsByClassName('track') // This will get all tracks
+
+  if (selectedCar.checked == false) { // simple toogle for the check - uncheck
     selectedCar.checked = true 
+    for (var j = 0; j < start.length; j++) { // we are going through all starting div to check if it is empty and to set car image in it
+      var item = start[j]
+      if (item.innerHTML == '') {
+        item.innerHTML = `<img alt="Placeholder" class="w-full car-image-race" src="${actualJSON.cars[i - 1].image}" id="car-race-` + i + '">'
+        break
+      }
+    }
   } else {
     if (selectedCar.checked == true) {
       selectedCar.checked = false
+      removeElement('car-race-' + i)
     }
   }
+}
+function displayCarTrack () {
+  // var units = distance/10;
+  for (var i = 0; i < 10; i++) {
+    var div = document.createElement('div')
+    var div2 = document.createElement('div')
+    var div3 = document.createElement('div')   
+    div.className = 'flex-grow bg-orange-100 h-12 border-r-2'
+    div2.className = 'flex-grow bg-orange-100 h-12 border-r-2'
+    div3.className = 'flex-grow bg-orange-100 h-12 border-r-2'
+    document.getElementById('car-track-1').appendChild(div)
+    document.getElementById('car-track-2').appendChild(div2)
+    document.getElementById('car-track-3').appendChild(div3)
+  }
+}
+function removeElement (elementId) {
+  // Removes an element from the document
+  var element = document.getElementById(elementId)
+  element.parentNode.removeChild(element)
 }
