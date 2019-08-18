@@ -41,9 +41,7 @@ function init () {
 
             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                 <h1 class="text-lg">
-                    <a class="name no-underline hover:underline text-black" href="#">
                     ${actualJSON.cars[i].name}
-                    </a>
                 </h1>
             </header>
           </div>
@@ -52,9 +50,7 @@ function init () {
 
             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                 <h1 class="text-lg">
-                    <a class="name no-underline hover:underline text-black" href="#">
                     ${actualJSON.cars[i].name}
-                    </a>
                 </h1>
             </header>
             <footer class=" flex items-center justify-between leading-none p-2 md:p-4 ">
@@ -78,6 +74,10 @@ function init () {
       var mainContainer = document.getElementById('cars')
       mainContainer.appendChild(div)
     }
+    // Display the speed limitations 
+    displayLimits(actualJSON)
+    // Display the semaphores
+    displayTrafficLights(actualJSON)
   })
 }
 
@@ -200,9 +200,55 @@ function start () {
       carRacing3.style.left = currentPosition3 + 'px'
     }
   }, travelTime3)
+
+  // Change traffic lights 
+  var red = document.getElementsByClassName('red-lights')[0] // assuming there is only one semaphore
+  var green = document.getElementsByClassName('green-lights')[0]
+  red.style.opacity = 0.1
+  var changeLights = setInterval(changeLight, 3000)
+
+  function changeLight () {
+    if (red.style.opacity == 0.1) {
+      red.style.opacity = 1
+      green.style.opacity = 0.1
+    } else {
+      red.style.opacity = 0.1
+      green.style.opacity = 1
+    }
+    if (finisherPlace.length == 3) {
+      clearInterval(changeLights) // Traffic lights will stop changing colors when the third car reach the finish line
+    }
+  }
+
   function setMedal () {
     document.getElementById('track' + finisherPlace[0]).children[0].className += ' gold'
     document.getElementById('track' + finisherPlace[1]).children[0].className += ' silver'
     document.getElementById('track' + finisherPlace[2]).children[0].className += ' bronze'
+  }
+}
+function displayLimits (actualJSON) {
+  for (var i = 0; i < actualJSON.speed_limits.length; i++) {
+    var div = document.createElement('div')
+    div.className = 'absolute shadow mt-3 mx-auto h-20 w-20 text-4xl rounded-full bg-gray-100 border-4 border-red-500 text-center text-gray-600'
+    // Calculating the procentage to put the speed limit sign at
+    div.style.left = ((100 * actualJSON.speed_limits[i].position) / actualJSON.distance) + '%'
+    const sign = `<span class="align-middle">${actualJSON.speed_limits[i].speed}</span>`
+    div.innerHTML = sign
+    var mainContainer = document.getElementById('limits')
+    mainContainer.appendChild(div)
+  }
+}
+function displayTrafficLights (actualJSON) {
+  for (var i = 0; i < actualJSON.traffic_lights.length; i++) {
+    var div = document.createElement('div')
+    div.className = 'absolute shadow h-24 w-12 rounded-lg bg-gray-100 object-center'
+    div.style.left = ((100 * actualJSON.traffic_lights[i].position) / actualJSON.distance) + '%'
+    const sign = `
+            <div class="red-lights mt-3 mx-auto h-8 w-8 rounded-full bg-red-600"></div>
+            <div class="green-lights mt-2 mx-auto h-8 w-8 rounded-full bg-green-500"></div>
+    `
+    div.innerHTML = sign
+    var mainContainer = document.getElementById('limits')
+    mainContainer.appendChild(div)
   }
 }
