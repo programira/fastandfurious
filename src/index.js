@@ -15,6 +15,7 @@ function loadJSON (callback) {
   xobj.send(null)
 }
 var actualJSON
+var carsOnTrack = []
 
 function init () {
   loadJSON(function (response) {
@@ -106,7 +107,8 @@ function selectCar (i) {
     for (var j = 0; j < start.length; j++) { // we are going through all starting div to check if it is empty and to set car image in it
       var item = start[j]
       if (item.innerHTML == '') {
-        item.innerHTML = `<img alt="Placeholder" class="w-full car-image-race" src="${actualJSON.cars[i - 1].image}" id="car-race-` + i + '">'
+        item.innerHTML = `<img alt="Placeholder" class="absolute w-full car-image-race" src="${actualJSON.cars[i - 1].image}" id="car-race-` + i + '">'
+        carsOnTrack.push(i)
         break
       }
     }
@@ -135,4 +137,72 @@ function removeElement (elementId) {
   // Removes an element from the document
   var element = document.getElementById(elementId)
   element.parentNode.removeChild(element)
+}
+function start () {
+  var animationSpeed = document.getElementById('animation-speed').value
+  var currentPosition1 = 0
+  var currentPosition2 = 0
+  var currentPosition3 = 0
+  // console.log(carsOnTrack)
+  // Getting selected cars on track
+  var carRacing1 = document.getElementById('car-race-' + carsOnTrack[0])
+  var carRacing2 = document.getElementById('car-race-' + carsOnTrack[1])
+  var carRacing3 = document.getElementById('car-race-' + carsOnTrack[2])
+  var finisherPlace = []
+  // console.log(carRacing1)
+  // Getting car speed for each of the selected car
+  var car1Speed = actualJSON.cars[carsOnTrack[0] - 1].speed
+  var car2Speed = actualJSON.cars[carsOnTrack[1] - 1].speed
+  var car3Speed = actualJSON.cars[carsOnTrack[2] - 1].speed
+  // console.log(car1Speed)
+  var raceDistance = actualJSON.distance
+  // Calculating travel time for each time event/interval
+  var travelTime1 = (100 * (raceDistance / car1Speed)) / animationSpeed
+  var travelTime2 = (100 * (raceDistance / car2Speed)) / animationSpeed
+  var travelTime3 = (100 * (raceDistance / car3Speed)) / animationSpeed
+  // console.log(travelTime1)
+  var finishPoint = 1086 // Finishing position on the page to stop the race at
+
+  var timeEvent1 = setInterval(function () {
+    if (currentPosition1 == 1086) {    
+      finisherPlace.push(1)
+      if (finisherPlace.length == 3) {
+        setMedal()
+      }
+      clearInterval(timeEvent1)
+    } else {
+      // console.log(currentPosition1)
+      currentPosition1++
+      carRacing1.style.left = currentPosition1 + 'px'
+    }
+  }, travelTime1) // 1000 value is 1 sec
+  var timeEvent2 = setInterval(function () {
+    if (currentPosition2 == finishPoint) {    
+      finisherPlace.push(2)
+      if (finisherPlace.length == 3) {
+        setMedal()
+      }
+      clearInterval(timeEvent2)
+    } else {
+      currentPosition2++
+      carRacing2.style.left = currentPosition2 + 'px'
+    }
+  }, travelTime2)
+  var timeEvent3 = setInterval(function () {
+    if (currentPosition3 == finishPoint) {    
+      finisherPlace.push(3)
+      if (finisherPlace.length == 3) {
+        setMedal()
+      }
+      clearInterval(timeEvent3)
+    } else {
+      currentPosition3++
+      carRacing3.style.left = currentPosition3 + 'px'
+    }
+  }, travelTime3)
+  function setMedal () {
+    document.getElementById('track' + finisherPlace[0]).children[0].className += ' gold'
+    document.getElementById('track' + finisherPlace[1]).children[0].className += ' silver'
+    document.getElementById('track' + finisherPlace[2]).children[0].className += ' bronze'
+  }
 }

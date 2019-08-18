@@ -62,3 +62,15 @@ h1 {
   width: 100%; 
   z-index: 1
 }
+.gold, .silver, .bronze {
+  border-radius: 32%;
+}
+.gold {
+  background-color: #f2e08c;
+}
+.silver {
+  background-color: #a0a7b9;
+}
+.bronze {
+  background-color: #d99043;
+}
