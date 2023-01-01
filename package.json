@@ -11,20 +11,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "css-loader": "^3.2.0",
+    "css-loader": "^6.7.3",
     "esm": "^3.2.25",
     "express-favicon": "^2.0.1",
     "js-search": "^1.4.3",
     "script-loader": "^0.7.2",
     "style-loader": "^1.0.0",
     "tailwindcss": "^1.1.1",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.8.0",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "postcss-loader": "^3.0.0",
+    "postcss-loader": "^7.0.2",
     "standard": "^14.0.0-0"
   }
 }
